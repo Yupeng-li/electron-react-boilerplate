@@ -10,24 +10,35 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "connected-react-router": "^6.8.0",
     "electron-is-dev": "^1.1.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-scripts": "3.4.0"
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.0",
+    "redux": "^4.0.5",
+    "redux-simple-state": "^1.0.8"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "electron": "electron ./build/electron.main.js",
     "eject": "react-scripts eject",
-    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "clean": "rimraf dist coverage",
+    "test:cov": "npm test -- --coverage",
     "postinstall": "electron-builder install-app-deps",
-    "preelectron-pack": "yarn build",
-    "electron-pack": "electron-builder build -w"
+    "preelectron-pack": "yarn clean && yarn test --watchAll=false && yarn build",
+    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-pack": "electron-builder build -w",
+    "format": "pretty-quick",
+    "format:staged": "pretty-quick --staged"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "airbnb"
+    ]
   },
   "browserslist": {
     "production": [
@@ -46,6 +57,14 @@
     "cross-env": "^7.0.2",
     "electron": "^8.1.1",
     "electron-builder": "^22.4.1",
+    "eslint-config-airbnb": "^18.1.0",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1",
+    "rimraf": "^3.0.2",
     "wait-on": "^4.0.1"
-  }
+  },
+  "pre-commit": [
+    "format:staged"
+  ]
 }
